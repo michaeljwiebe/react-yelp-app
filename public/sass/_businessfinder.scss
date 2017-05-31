@@ -1,0 +1,67 @@
+.header{
+  background-color: grey;
+  margin: 0px;
+}
+.headerText{
+  color: rgb(255, 255, 255);
+  font-size: 50px;
+  font-family: 'Bubbler One', sans-serif;
+}
+.produced{
+  color: rgb(255, 255, 255);
+  font-size: 25px;
+  font-family: 'Bubbler One', sans-serif;
+}
+.yelpImage{
+  background-image: url('yelp.png');
+  background-size: 100% 100%;
+  height: 10vh;
+  width: 10vh;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+.inputs{
+  margin-top: 10px;
+  display:inline-block;
+  padding: 20px;
+  background-color: lightgrey;
+}
+.backContainer{
+  background-color: rgba(150, 150, 150, 0.5);
+  padding: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  border: 2px solid white;
+}
+.mainContainer{
+  margin: 0px auto;
+  background-color: lightgrey;
+  border: 1px solid grey;
+  padding: 20px;
+  display: inline-flex;
+  justify-content: space-around;
+  text-align: center;
+  height: 45%;
+  width: 45%;
+}
+.text{
+  color: rgb(187, 66, 87);
+  font-size: 24px;
+  font-family: 'Bubbler One', sans-serif;
+  margin: 5px;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 2px solid black;
+  margin-bottom: 5px;
+}
+.businessPicture{
+  height: 20vh;
+  width: 30vh;
+  margin: 0px auto;
+}
+.businessRating{
+  width: 30vh;
+  margin: 0px auto;
+}

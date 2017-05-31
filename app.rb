@@ -29,3 +29,7 @@ post '/signup' do
         redirect '/'
     end
 end
+
+get '/businessfinder' do
+  erb :businessfinder
+end
