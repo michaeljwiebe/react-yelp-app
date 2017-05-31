@@ -1,0 +1,18 @@
+<div>
+    index.erb works
+</div>
+
+<form action="/signin" method="post">
+    <input type="text" name="username" placeholder="username">
+    <input type="password" name="password" placeholder="password">
+    <input type="submit" value="sign in">
+
+</form>
+
+<form action="/signup" method="post">
+    <input type="text" name="[user]username" placeholder="new username">
+    <input type="password" name="[user]password" placeholder="new password">
+    <input type="submit" value="sign up">
+</form>
+
+<%= flash[:error] if flash[:error] %>
