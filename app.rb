@@ -11,7 +11,8 @@ post '/signin' do
         user = User.where(username: params[:username]).first
         if user.password == params[:password]
             flash[:notice] = "success"
-            redirect '/profile'
+            sessions[:user_id] = user.id
+            redirect '/business_finder'
         else
             flash[:error] = "wrong password"
             redirect '/'
@@ -30,6 +31,6 @@ post '/signup' do
     end
 end
 
-get '/businessfinder' do
-  erb :businessfinder
+get '/business_finder' do
+  erb :business_finder
 end
