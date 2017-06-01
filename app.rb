@@ -45,3 +45,8 @@ get '/favorite_businesses' do
   p businesses
   businesses.to_json
 end
+
+get '/sign_out' do
+    session[:user_id] = nil
+    redirect '/'
+end

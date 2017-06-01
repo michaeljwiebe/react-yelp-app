@@ -7,8 +7,8 @@ class ApiMaster extends React.Component {
       businesses: [],
       favorites: []
     };
-    this.setStateTerm = this.setStateTerm.bind(this);
-    this.setStateLocation = this.setStateLocation.bind(this);
+    this.updateTerm = this.updateTerm.bind(this);
+    this.updateLocation = this.updateLocation.bind(this);
     this.runApi = this.runApi.bind(this);
     this.loadFavoritesList = this.loadFavoritesList.bind(this);
   }
@@ -22,26 +22,29 @@ class ApiMaster extends React.Component {
           <input
             placeholder="business-term"
             value={this.state.termSearch}
-            onChange={this.setStateTerm}
+            onChange={this.updateTerm}
           />
           <input
             placeholder="business-location"
             value={this.state.locationSearch}
-            onChange={this.setStateLocation}
+            onChange={this.updateLocation}
           />
-          <button onClick={this.runApi}>Click Me!</button>
+          <button onClick={this.runApi}>Search</button>
         </div>
         <CreateBusinessDivs
           results={this.state.businesses}
           postApi={this.postApi}
         />
+        <form method="GET" action="/sign_out">
+            <input type="submit" value="Sign Out" />
+        </form>
       </div>
     );
   }
-  setStateTerm(event) {
+  updateTerm(event) {
     this.setState({ termSearch: event.target.value });
   }
-  setStateLocation(event) {
+  updateLocation(event) {
     this.setState({ locationSearch: event.target.value });
   }
   runApi() {
