@@ -36,13 +36,16 @@ get '/business_finder' do
 end
 
 post '/favorite_businesses' do
-  p params
   favorite_business = Business.create(business_name: params[:business_name],business_location: params[:business_location],business_phone: params[:business_phone],user_id: session[:user_id])
-  p favorite_business
   favorite_business.to_json
 end
 
 get '/favorites' do
   @businesses = Business.where(user_id: session[:user_id]);
   erb :favorites
+end
+
+get '/sign_out' do
+    session[:user_id] = nil
+    redirect '/'
 end
