@@ -12,11 +12,10 @@ post '/signin' do
         if user.password == params[:password]
             flash[:notice] = "success"
             session[:user_id] = user.id
-            redirect '/business_finder'
         else
             flash[:error] = "wrong password"
-            redirect '/'
         end
+        redirect '/'
     end
 end
 
@@ -29,10 +28,6 @@ post '/signup' do
         flash[:error] = user.errors.full_messages
         redirect '/'
     end
-end
-
-get '/business_finder' do
-  erb :business_finder
 end
 
 post '/favorite_businesses' do
