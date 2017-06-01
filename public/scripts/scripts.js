@@ -59,15 +59,15 @@ class ApiMaster extends React.Component {
   }
   postApi(event) {
     var business = JSON.parse(event.target.value);
-
-    axios
-      .post("/favorite_businesses", {
-        params: {
-          business_name: business.business_name,
-          business_location: business.business_location,
-          business_phone: business.business_phone
-        }
-      })
+    axios({
+      method: "post",
+      url: "/favorite_businesses",
+      params: {
+        business_name: business.business_name,
+        business_location: business.business_location,
+        business_phone: business.business_phone
+      }
+    })
       .then(function(response) {
         console.log(response);
       })
