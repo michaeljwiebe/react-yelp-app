@@ -1,0 +1,572 @@
+INCLUDE IN ALL WEBSITES:
+	CSS RESET for dealing with cross-browser inconsistencies and meta viewport for media queries
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.css">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript" src="scripts.js"></script>
+</body>
+</html>
+
+jQuery:
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+SASS
+	sass --watch sass:css (do this in main folder, first is sass folder(being watched), second is css folder)
+
+	@mixin border-radius($radius) {
+	  -webkit-border-radius: $radius;
+	     -moz-border-radius: $radius;
+	      -ms-border-radius: $radius;
+	          border-radius: $radius;
+	}
+
+	.box { @include border-radius(10px); }
+
+AJAX
+	function searchYelp(searchText, searchLocation){
+	    $.ajax({
+	        url: "https://yelp-search.herokuapp.com/search",
+	        method: "GET",
+	        data: {
+	            term: searchText,
+	            location: searchLocation,
+	            radius: 1000,
+	            sort_by: "rating"
+
+	        },
+			dataType: 'json',
+	        success: function(response){
+	            console.log(response);
+	        }
+
+	    })
+	}
+
+Icons
+	hamburger icon - &#9776;
+
+view hard drive - shift cmd C
+move multiple cursors - alt arrow
+
+Coding challenges
+	FizzBuzz - 0-100, print number or print fizz if divisible by 3, print buzz if 5, both if both
+	Concatenate words
+	manipulate arrays
+
+Terminology
+	JavaScript
+		Object = {
+			key: value,
+			key2: value2
+		}
+
+	CSS
+		.selector{
+			property: value;
+		}
+
+______________________________________
+
+					TODO
+
+add language components used section to READMEs
+	-summary sheet for my own reference, github
+job prep journal
+______________________________________
+
+React.js
+	pass function/method into class
+		class App extends React.Component{
+			constructor(props){
+				this.property = props.property;
+			}
+		}
+			render(){
+				return(
+					funcToPass(){work}
+				)
+			}
+
+		class SubClass extends React.Component{
+			constructor(props){
+				this.funcToPass = props.funcToPass;
+				this.state = {
+					input1: "",
+					input2: ""
+				}
+				this.handleFuncToPass = this.handleFuncToPass.bind(this);
+				this.updateInput1 = this.updateInput1.bind(this);
+				this.updateInput2 = this.updateInput2.bind(this);
+			}
+			render(){
+				return(
+					<div>
+						<input type="text" onChange={this.updateInput1}>
+					</div>
+				)
+			}
+			updateInput1(input){
+				this.setState({input1: event.target.value})
+			}
+			updateInput2(input){
+				this.setState({input2: event.target.value})
+			}
+			handleFuncToPass(){
+				this.funcToPass({input1: this.state.input1, input2: this.state.input2})
+			}
+		}
+
+
+
+
+sinatra
+	run bundle after setup
+
+	run racksh in Terminal to enter IRB
+	run rackup to initialize server
+
+	___________________________________
+
+	build/edit tables
+
+	rake db:create_migration NAME=create_users_table
+
+	class CreateUsersTable < ActiveRecord::Migration[5.1]
+	  def change
+		  create_table :users do |t|
+			  t.string :username
+			  t.string :password
+		  end
+	  end
+	end
+
+	update column (:table, :column, :new_type)
+	change_column(:blogs, :content, :text)
+
+	add to table
+	change_table :table do |t|
+
+	rake db:migrate
+
+
+	when
+	book has_many :tags
+	tag has_many :books
+	build a join table for them with integers of ids from both tables
+	:book_tags do |t|
+		t.integer :book_id
+		t.integer :tag_id
+	and build a tags table
+		t.string :name
+
+	Book has_many :tags, through :books_tags
+
+	rake db:drop -- delete all data in tables
+	rake db:rollback -- remove previous migration
+
+	___________________________________
+
+	models.rb
+	class User < ActiveRecord::Base
+		belongs_to :crowd
+		has_many :books
+		has_one :mind
+
+		validates :username, uniqueness: true
+		validates :password, presence: true
+	end
+
+	___________________________________
+
+	app.rb
+	before do
+		@current_user = User.find(session[:user_id]) if session[:user_id]
+	end
+
+	User.create!(username: params[:username], password: params[:password])
+
+	___________________________________
+	config.ru file
+
+	require './config/environment.rb'
+
+	run Sinatra::Application
+
+	___________________________________
+	environment.rb
+
+	require 'sinatra'
+	require 'sinatra/activerecord'
+
+	set :database, "sqlite3:firstdb.sqlite3"
+	set :sessions, true
+
+	require './app'
+	require './models'
+
+
+Ruby
+	bundle -- updates gems, needs install bundler
+		control-C -- exits code block in irb, check for characters after 000
+		quit - exit irb
+
+HTTP
+	get - read info
+	post - send info - outputs http://localhost:4567/sign_in?username=michael&password=m
+	put - update info
+	delete - destroy info
+
+Databases
+	put params dynamically(<%= blog.id %>) into address bar, use in app.rb to specify content to load
+	set name="[comment]body" on form elements to group them together and access with params[:comment] in back end
+	use forms to go to a route '/search' and refresh or redirect page
+	use button for ajax calls/ other javascript
+	schema -- shows the structure of the table, don't touch it
+	never delete migration files, there are other ways to change dbs
+
+	build new database
+		rake db:create_migration NAME=create_users_table -- make a new table step 1
+		rake db:migrate -- make a new table step 2
+
+
+	FILESTRUCTURE
+		db folder
+		Gemfile
+			source 'https://rubygems.org'
+			gem 'sinatra'
+			gem 'sinatra-activerecord'
+			gem 'sqlite3'
+			gem 'rake'
+			then bundle install in Terminal
+		models.rb
+			class User < ActiveRecord::Base end
+		Rakefile
+			require 'sinatra/activerecord/rake'
+			require './app'
+		views folder - for erb files to be referenced from app.rb
+		app.rb in main folder
+			require 'sinatra'
+			require 'sinatra/activerecord'
+			set :database, "sqlite3:firstdb.sqlite3"
+			require './models'
+
+
+irb
+	Class.create(title: "hello", category: "greetings", content: "hola bonjour")
+		makes new instance of Class and puts data in table, accessible from irb or erb files
+	Class.where(category: "travel") -- pulls up all instances when table of data exists
+	Class.delete(#) -- deletes data at id: #
+	Class.find(#) -- shows data
+
+Ruby - Server initialization
+	make app.rb file in main directory
+		require 'sinatra'
+		get '/layout' do
+			erb :layout
+		end
+		get '/photopage' do
+			@heading = "hero"
+			@page_type = "withsmall"
+			erb :photopage
+		end
+	public directory - holds all public website data
+		views directory and sass directory
+	.gitignore file to prevent collaboration errors:
+		.sass-cache
+		css/
+		.DS_Store
+	start sass
+	run app.rb file
+
+Ruby syntax/terminology/general
+	ternary operator  (true) ? return this : else that
+	@ -- creates instance variable, allows its use in other methods
+	@attribute -- exists after new instance has been created
+
+	Hash
+		hash = {property: "value", property2: "value2"}
+		hash[:property] -- accesses property
+		variable[:key] = value -- adds value pair to hash
+	use_snake_case -- no camelcase
+	no need to declare variables like with var
+	numbers -- 99 100.212
+	booleans exist -- true false
+	hash -- object with key: "value", pairs, can't store functions
+	Fixnum -- integer
+	Float -- number with decimal
+	parenthesis optional in if statement
+	methods -- they do things, don't call them functions
+		anonymous methods do not exist in Ruby
+	hoisting does not exist in ruby so:
+		methods must be called after a method and variable definitions it uses
+	: -- designates something as a symbol, or it will be a key
+	{ |num| num.even? } -- signifies code block, eliminates need for do and end, just put code inside, don't do it when defining methods
+
+Ruby commands
+	puts  -- prints to console with new line following
+	print  -- prints to console on same line
+	bike[:type] -- accesses a hash key
+	array[0] -- accesses an array value
+	array.delete(value) -- deletes all of specific values from array
+	if elsif else end
+	end -- terminates block
+	block -- a sequence of code
+	friends.each do |friend| -- when friends is an array
+	friends.length -- built in length property
+	friends.each_with_index |friend, index|
+	def end -- to define a method
+	string << " new string" -- joins strings
+	array.sort -- sorts lowest to highest or a-z
+	1..10 -- counts 1 to 10 inclusive
+	1...10 -- counts 1 to 10 exclusive
+	.to_sym -- makes a string into a symbol
+	.to_symbol -- makes a string into a symbol
+	.to_i or .to_int -- turns string into number
+	.to_s -- turns text into string
+	attr_reader -- allows viewing of attributes from outside of class
+	attr_writer -- allows modification of attributes from outside of class
+	attr_accessor -- allows viewing and modification of attributes from outside of class
+	super() -- calls same-named function in super class without passing any inputs
+	variable = gets -- asks for input from the terminal, sets it as variable's value
+	gets.chomp -- eliminates default new line after gets command
+	3.times -- run code the number of times that the value is
+	array.select do |i| -- keeps the items in the array that meet conditions
+	! -- bang operator, use in ruby like array.select! to reassign array with values from function, true ones only if evaluating t/f
+	? -- like array.even? will check if true to method
+
+
+Ruby terminal commands
+	ruby -v  -- check version
+	ruby intro.rb
+	irb -- interact with ruby, test things
+	require './intro.rb' -- gains access to methods in file
+	load './intro.rb' -- reloads file into terminal, still need to var = Bike.new(color, brand, etc) for it to exist in terminal
+	quit -- escapes irb
+
+
+Sass
+	_variables.scss - file that will store variables to be used in other scss files
+
+	make variables for colors, fonts, font-sizes... others?, separate CSS by page its used for,
+	Only write CSS in SASS files
+
+	styles.scss - compiles all the _partial.scss files
+		@import 'partial';
+		@import 'variables';
+
+jQuery
+	$ -- builds a jQuery object with whatever is in the parenthesis
+	$(".first, .third") -- grab tags with first class and those with third class
+	$(".first.content") -- grab tags with first and content div
+	.on("click", function(){}) - adds event listener to items inside jQuery object
+
+
+JavaScript
+	General
+		node -- turns terminal into console
+		this -- refers to whatever object or HTML element that called it. Functions often exist within objects but they are also attached to buttons with event listeners or floating in the open, where you can assign a variable to this if you want (or just don't use this)
+		Constructor.prototype.newProperty -- adds property to all new iterations of constructor in the proto object
+		Person.apply(this, arguments) - this could be something else so that in the Person function, this means what you want it to
+		.indexOf("@") -- returns index of character searched for, -1 if not present
+		method -- function defined within object (purchase: purchase,)
+		setInterval(function, milliseconds) -- calls a function over and over at a certain interval
+		.eval() -- does math, also removes quotes but increases code vulnerability, EVIL
+		Make functions that can be called from other functions to do small tasks
+			-this simplifies code
+			-reduces large blocks of code
+			-makes code more readable
+		var -- creates variable in the current scope
+				-more variables = more memory taken up
+				-more variables = more chance of error
+				-if used in if/else or for loops, variable will exist globally
+		let - creates variable that exists in block scope
+			- use to make variables in if/else and for loops without making them show globally
+		const -- assigns a constant value to something
+
+		build single HTML element without hassle of thinking about HTML build time
+			var newDiv = document.createElement("div");
+				newDiv.classList.add("class");
+				newDiv.addEventListener("click", function(){dostuff});
+				body.append(newDiv);
+			build multiple HTML elements
+				for(i = 0; i < 10; i++){
+					var newDiv = document.createObject("div");
+					newDiv.classList.add("div" + i);
+					body.append(newDiv);
+				}
+	ES6
+		var -- has function scope, not confined by for loops
+		let -- like var but keeps variable inside block scope {}, tighter scopes which include for loops
+		const -- variable that cannot be reassigned, has function scope
+
+		class Product{
+			constructor(name, price){
+				this.name = name;
+				this.price = price;
+			}
+			sayPrice(){
+				return "this product costs " + this.price;
+			}
+		}
+		class Shoes extends Product {
+			constructor(){
+				super();
+			}
+		}
+		inheritance works with extends, constructor functions run when product is built, so var adidas = new Shoes("boots", 5)
+
+	String manipulation
+		.split(" ") -- splits a string into an array of strings based on locations of argument
+		.join(", and") -- will join an array of strings with argument between pairs
+		.charAt(0) -- pulls first value from a string
+		window["myVar"] -- converts string into variable if it has global scope
+	Array manipulation
+		.filter like movies.filter(function(movie){return movie.year > 1974}) but builds array with only true results
+		.map like books.map(function(book){return book.info}) -- builds new array with results from anonymous function
+		[].forEach.call(varOfDOMobjects, function(thing, index){do stuff}) - run a for each on DOM elements
+		.splice(index, # to remove) -- removes items from an array
+		.toString() -- converts value or entire array to string
+		.sort() -- reorders array by values of first letter/number of each item
+		.reverse() -- reverses order of array
+		.indexOf(var) -- returns index of item in array
+		number.toString() -- converts var to a string
+
+
+	Objects
+		books.forEach(function(book, index){dostuff})
+		Objects have ["key"] = value; pairs will assign a property with value to obj
+		object.property -- dot notation, accesses property of object, can change this here
+		object["property"] -- bracket notation, done when need to use variable to access or assign property of object
+		constructor function -- builds objects and gives them properties
+		function inputs -- do not ned to pass all arguments to a function for it to work
+			can leave them blank and they will get 'undefined'
+			put most important inputs first and/or don't even include unimportant ones
+		Constructor.apply(this, arguments) -- gives properties of constructor to new constructor
+
+	document.write() -- writes to the top of the HTML
+	array[] = comma seperated list of values
+	object{} =
+
+	parseInt("342 Spruce St") -- returns 324 integers from strings if they are at the beginning of the string
+	parseFloat("5.0") -- returns 5.0, need to use when a decimal is involved in number in string
+
+???	how can I use booleans to add functionality to classes?
+
+
+GENERAL
+	Focus on one element/feature at a time
+	Don't put in CSS before you're ready for it
+	Coupling - when objects refer to each other and know about each others, is not ideal
+	client -- interface (phone, server, browser, etc) that is requesting information from host
+
+Google SEO
+	-only use one h1 tag
+
+HTML
+	put img tags in divs, apply styles to divs or use background images on divs
+	Media queries - use <meta name="viewport" content="width=device-width, initial-scale=1">
+	Semantic tags - article, main, header, footer
+		-have built-in expectations
+		-Don't apply style rules to them
+		-apply styles to divs inside these tags
+	IDs - don't use for styling because of excessive use will destroy cascading in CSS
+		- you should only have one of them
+
+
+CSS
+	Inherit exceptions should use * selector, only with box-sizing, padding, margin, border
+
+	z-index -- only works in relation to its siblings, they must be on the same level of the HTML as eachother
+	@font-face{
+		font-family:"new-font";
+		src: url("newfont.ttf")
+	}
+	animation: animation-name 1s linear;
+	animation-fill-mode: forwards; -- will maintain final value
+	cubic-bezier?
+
+	@keyframes animation-name{
+		0% {}
+		100% {}
+	}
+
+	/* offset-x | offset-y | blur-radius | spread-radius | color */
+	box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+	background-size: width% height%
+	min/max-width - use pixels for phone or high-res screens so things don’t get too tiny/stretched out
+	% sizing - use paired with min-width in pixels for good mobile design
+	Transition: all 1s; - use this in main class when pseudoclasses like :hover are present
+	Media queries
+		desktop first - assumes default is between 980px and 1199px)
+			Extra large desktops				@media all and (min-width: 1200px)
+			Tablets, small desktops				@media all and (min-width: 768px) and (max-width: 979px)
+			Phone in landscape, small tablet	@media all and (max-width: 767px)
+			smaller phone						@media all and (max-width: 480px)
+		mobile first - assumes default below 767px
+			@media all and (min-width: 768px)
+			@media all and (min-width: 992px)
+			@media all and (min-width: 1200px)
+	Float: breaks normal rules, not compatible with display and position
+
+	Rules targeting same object below others in the css will override
+	# selectors are more specific than class or element selectors, most specific gets applied
+	<style> tag in HTML will override any CSS. Other option would be to give it an ID or make an ID rule at the bottom of CSS file
+	Position
+		:fixed -- takes static place on screen
+		:absolute -- takes static place on page
+		:relative -- allows placement of elements when they have position: absolute , they must be direct children of parent with position:relative
+			-can be used without absolute children and will hold space in document flow but allow movement away from that space
+
+
+TERMINAL
+	SHORTCUTS
+		clear screen - cmd k
+
+	COMMANDS - brackets indicate optional or customized text
+		git status -- check file changes
+		git add . -- stage all files for commit
+		git commit -m "asdf" -- commit and message
+			"closes #1" -- type in part of commit message to close issue
+		git branch new-feature -- new branch
+		git branch -- view branches
+		git checkout new-feature -- switch to branch
+		git merge new-feature -- merge branch to current working branch
+		git pull ('-u' needed first time) origin ('master' branch) -- download repo
+		git push ('-u' needed first time) origin ('master' branch) -- commit changes to GitHub
+		ls -- view files in directory (short list)
+		cd -- change directory
+		pwd -- path of working directory
+		cd .. -- navigate level up
+		init -- track changes in directory
+		rm -rf .git -- remove local .git file
+		git rebase -- adds commits to the master branch as if they were made after the most up-to-date version of the master
+		cd *drag folder into Terminal* -- rapidly enter directory
+		cd enter -- goes to root directory
+		cd Desktop && mkdir Folder Folder2 -- goes to desktop and makes two folders
+
+	COMMIT FLOW
+		git branch new-feature
+		git checkout new-feature
+		git add .
+		git commit -m "message. closes #1"
+		git push origin new-feature
+
+
+		git pull origin master
+		git merge master
+		git checkout master
+		git pull
+		git merge new-feature
+		git push
+
+
+	VIM
+		:q! -- exits VIM
