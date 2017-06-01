@@ -38,7 +38,6 @@ class ApiMaster extends React.Component {
                             postApi={this.postApi}
                         />
                     </div>
-
                     <div className="right-container">
                         <FavoritesMenu favorites={this.state.favorites} />
                     </div>
@@ -164,10 +163,12 @@ function CreateBusinessDivs(props) {
 function FavoritesMenu(props) {
     let place = props.favorites.map(function(business, index) {
         return (
-            <div key={index}>
-                <div>{business.business_name}</div>
-                <div>{business.business_location}</div>
-                <div>{business.business_phone}</div>
+            <div key={index} className="favorite-container">
+                <div className="favorite-name">{business.business_name}</div>
+                <div className="favorite-location">
+                    {business.business_location}
+                </div>
+                <div className="favorite-phone">{business.business_phone}</div>
             </div>
         );
     });
