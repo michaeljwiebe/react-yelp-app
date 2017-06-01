@@ -58,12 +58,22 @@ class ApiMaster extends React.Component {
       });
   }
   postApi(event) {
-    console.log(event);
-    console.log(event.target);
-    console.log(event.target.innerHTML);
-    console.log(event.target.value);
-    var bizName = JSON.parse(event.target.value);
-    console.log(bizName);
+    var business = JSON.parse(event.target.value);
+
+    axios
+      .post("/favorite_businesses", {
+        params: {
+          business_name: business.business_name,
+          business_location: business.business_location,
+          business_phone: business.business_phone
+        }
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 }
 
@@ -86,7 +96,9 @@ function CreateBusinessDivs(props) {
             {business.name}
           </div>
           <div className="businessPhone text">{business.display_phone}</div>
-          <div className="businessAdress text">{business.location.address}</div>
+          <div className="businessAddress text">
+            {business.location.address}
+          </div>
         </div>
         <div className="images">
           <img className="businessPicture" src={business.image_url} />
@@ -96,7 +108,15 @@ function CreateBusinessDivs(props) {
           <button
             type="button"
             onClick={props.postApi}
-            value={'{"name": "' + business.name + '"}'}
+            value={
+              '{"business_name": "' +
+                business.name +
+                '","business_location": "' +
+                business.location.address +
+                '","business_phone": "' +
+                business.display_phone +
+                '"}'
+            }
           >
             Favorite this Business
           </button>
