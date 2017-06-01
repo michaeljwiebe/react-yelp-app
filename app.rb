@@ -41,3 +41,8 @@ post '/favorite_businesses' do
   p favorite_business
   favorite_business.to_json
 end
+
+get '/favorites' do
+  @businesses = Business.where(user_id: session[:user_id]);
+  erb :favorites
+end
