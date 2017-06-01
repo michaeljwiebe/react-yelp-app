@@ -43,13 +43,9 @@ class ApiMaster extends React.Component {
             <form method="GET" action="/sign_out">
               <input type="submit" value="Sign Out" />
             </form>
-            <div className="favorites-button">
-              <button onClick={this.loadFavoritesList}>favorites list</button>
-            </div>
-            <div id="reactPageSwitch" />
+            <FavoritesMenu favorites={this.state.favorites} />
           </div>
         </div>
-        <FavoritesMenu favorites={this.state.favorites} />
       </div>
     );
   }
@@ -165,10 +161,10 @@ function CreateBusinessDivs(props) {
 function FavoritesMenu(props) {
   let place = props.favorites.map(function(business) {
     return (
-      <div>
-        <div>{business.business_name}</div>
-        <div>{business.business_location}</div>
-        <div>{business.business_phone}</div>
+      <div className="favorite-container">
+        <div className="favorite-name">{business.business_name}</div>
+        <div className="favorite-location">{business.business_location}</div>
+        <div className="favorite-phone">{business.business_phone}</div>
       </div>
     );
   });
