@@ -10,34 +10,46 @@ class ApiMaster extends React.Component {
     this.updateTerm = this.updateTerm.bind(this);
     this.updateLocation = this.updateLocation.bind(this);
     this.runApi = this.runApi.bind(this);
+    this.postApi = this.postApi.bind(this);
     this.loadFavoritesList = this.loadFavoritesList.bind(this);
   }
   render() {
     return (
       <div>
-        <button onClick={this.loadFavoritesList}>favorites list</button>
-
         <Header />
-        <div className="inputs">
-          <input
-            placeholder="business-term"
-            value={this.state.termSearch}
-            onChange={this.updateTerm}
-          />
-          <input
-            placeholder="business-location"
-            value={this.state.locationSearch}
-            onChange={this.updateLocation}
-          />
-          <button onClick={this.runApi}>Search</button>
+        <div className="flex">
+          <div className="left-container">
+            <div className="inputs">
+              <input
+                placeholder="business-term"
+                value={this.state.termSearch}
+                onChange={this.updateTerm}
+              />
+              <input
+                placeholder="business-location"
+                value={this.state.locationSearch}
+                onChange={this.updateLocation}
+              />
+              <button onClick={this.runApi}>Search</button>
+            </div>
+
+            <CreateBusinessDivs
+              results={this.state.businesses}
+              postApi={this.postApi}
+            />
+          </div>
+
+          <div className="right-container">
+            <form method="GET" action="/sign_out">
+              <input type="submit" value="Sign Out" />
+            </form>
+            <div className="favorites-button">
+              <button onClick={this.loadFavoritesList}>favorites list</button>
+            </div>
+            <div id="reactPageSwitch" />
+          </div>
         </div>
-        <CreateBusinessDivs
-          results={this.state.businesses}
-          postApi={this.postApi}
-        />
-        <form method="GET" action="/sign_out">
-            <input type="submit" value="Sign Out" />
-        </form>
+        <FavoritesMenu favorites={this.state.favorites} />
       </div>
     );
   }
@@ -75,9 +87,12 @@ class ApiMaster extends React.Component {
         business_phone: business.business_phone
       }
     })
-      .then(function(response) {
-        console.log(response);
-      })
+      .then(
+        function(response) {
+          console.log(response);
+          this.setState({ favorites: response.data });
+        }.bind(this)
+      )
       .catch(function(error) {
         console.log(error);
       });
@@ -85,19 +100,12 @@ class ApiMaster extends React.Component {
   loadFavoritesList() {
     axios
       .get("/favorite_businesses")
-      .then(
-        function(response) {
-          console.log(response.data);
-          this.setState({ favorites: response.data });
-        }.bind(this)
-      )
+      .then(function(response) {
+        console.log(response.data);
+      })
       .catch(function(error) {
         console.log(error);
       });
-    ReactDOM.render(
-      <FavoritesMenu favorites={this.state.favorites} />,
-      document.getElementById("reactPageSwitch")
-    );
   }
 }
 

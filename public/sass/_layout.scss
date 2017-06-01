@@ -36,3 +36,18 @@ body{
       color: $div-color;
     }
 }
+.flex{
+  display: flex;
+  flex-wrap: wrap;
+}
+.right-container{
+  display: flex;
+}
+.left-container{
+  width: 75vw;
+}
+
+.favorites-button{
+  display: inline;
+  margin-left: 10px;
+}

@@ -37,14 +37,11 @@ end
 
 post '/favorite_businesses' do
   favorite_business = Business.create(business_name: params[:business_name],business_location: params[:business_location],business_phone: params[:business_phone],user_id: session[:user_id])
-  favorite_business.to_json
-end
-
-get '/favorite_businesses' do
   businesses = Business.where(user_id: session[:user_id])
   p businesses
   businesses.to_json
 end
+
 
 get '/sign_out' do
     session[:user_id] = nil
