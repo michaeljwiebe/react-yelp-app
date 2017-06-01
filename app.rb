@@ -35,6 +35,9 @@ get '/business_finder' do
   erb :business_finder
 end
 
-post '/favorite_businesses/' do
-  favorite_business = Business.new(business_name: params[:business_name],business_location: params[:business_location],business_phone: params[:business_phone],user_id: session[:user_id])
+post '/favorite_businesses' do
+  p params
+  favorite_business = Business.create(business_name: params[:business_name],business_location: params[:business_location],business_phone: params[:business_phone],user_id: session[:user_id])
+  p favorite_business
+  favorite_business.to_json
 end
