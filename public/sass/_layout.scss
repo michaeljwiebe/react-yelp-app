@@ -3,9 +3,25 @@
 }
 
 body{
-    background-color: $brown;
+    background-color: $div-color;
+    text-align: center;
+    margin: 0 auto;
 }
-
+.navBar{
+  margin: 0 auto;
+  background-color: lightgrey;
+  text-align: left;
+  display: block;
+  ul{
+    li{
+      list-style-type: none;
+      a{
+        text-decoration: none;
+        color: white;
+      }
+    }
+  }
+}
 .main-container{
     font-family: $sans;
     color: white;

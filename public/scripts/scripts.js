@@ -81,7 +81,7 @@ function Header() {
   return (
     <div className="header">
       <div className="headerText">Please Search For Your Business</div>
-      <div className="produced">produced by MattLomet and friends</div>x
+      <div className="produced">produced by MattLomet and friends</div>
     </div>
   );
 }
