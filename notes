@@ -123,6 +123,7 @@ React.js
 			}
 		}
 
+axios.get
 
 
 
@@ -405,6 +406,7 @@ JavaScript
 		var -- has function scope, not confined by for loops
 		let -- like var but keeps variable inside block scope {}, tighter scopes which include for loops
 		const -- variable that cannot be reassigned, has function scope
+		JSON.parse("string") -- turn list of key:value pairs into JSON object
 
 		class Product{
 			constructor(name, price){
