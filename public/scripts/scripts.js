@@ -4,15 +4,19 @@ class ApiMaster extends React.Component {
     this.state = {
       termSearch: "",
       locationSearch: "",
-      businesses: []
+      businesses: [],
+      favorites: []
     };
     this.setStateTerm = this.setStateTerm.bind(this);
     this.setStateLocation = this.setStateLocation.bind(this);
     this.runApi = this.runApi.bind(this);
+    this.loadFavoritesList = this.loadFavoritesList.bind(this);
   }
   render() {
     return (
       <div>
+        <button onClick={this.loadFavoritesList}>favorites list</button>
+
         <Header />
         <div className="inputs">
           <input
@@ -75,6 +79,23 @@ class ApiMaster extends React.Component {
         console.log(error);
       });
   }
+  loadFavoritesList() {
+    axios
+      .get("/favorite_businesses")
+      .then(
+        function(response) {
+          console.log(response.data);
+          this.setState({ favorites: response.data });
+        }.bind(this)
+      )
+      .catch(function(error) {
+        console.log(error);
+      });
+    ReactDOM.render(
+      <FavoritesMenu favorites={this.state.favorites} />,
+      document.getElementById("reactPageSwitch")
+    );
+  }
 }
 
 function Header() {
@@ -129,6 +150,18 @@ function CreateBusinessDivs(props) {
       <div>{businesses}</div>
     </div>
   );
+}
+function FavoritesMenu(props) {
+  let place = props.favorites.map(function(business) {
+    return (
+      <div>
+        <div>{business.business_name}</div>
+        <div>{business.business_location}</div>
+        <div>{business.business_phone}</div>
+      </div>
+    );
+  });
+  return <div>{place}</div>;
 }
 
 ReactDOM.render(<ApiMaster />, document.getElementById("react"));
