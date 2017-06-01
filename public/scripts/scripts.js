@@ -27,7 +27,10 @@ class ApiMaster extends React.Component {
           />
           <button onClick={this.runApi}>Click Me!</button>
         </div>
-        <CreateBusinessDivs results={this.state.businesses} />
+        <CreateBusinessDivs
+          results={this.state.businesses}
+          postApi={this.postApi}
+        />
       </div>
     );
   }
@@ -54,6 +57,14 @@ class ApiMaster extends React.Component {
         console.log(error);
       });
   }
+  postApi(event) {
+    console.log(event);
+    console.log(event.target);
+    console.log(event.target.innerHTML);
+    console.log(event.target.value);
+    var bizName = JSON.parse(event.target.value);
+    console.log(bizName);
+  }
 }
 
 function Header() {
@@ -68,11 +79,12 @@ function Header() {
 
 function CreateBusinessDivs(props) {
   let businesses = props.results.map(function(business, index) {
-    console.log(business);
     return (
       <div className="mainContainer" key={index}>
         <div className="businessTexts">
-          <div className="businessName text">{business.name}</div>
+          <div className="businessName text">
+            {business.name}
+          </div>
           <div className="businessPhone text">{business.display_phone}</div>
           <div className="businessAdress text">{business.location.address}</div>
         </div>
@@ -80,6 +92,16 @@ function CreateBusinessDivs(props) {
           <img className="businessPicture" src={business.image_url} />
           <img className="businessRating" src={business.rating_img_url_large} />
         </div>
+        <form>
+          <button
+            type="button"
+            onClick={props.postApi}
+            value={'{"name": "' + business.name + '"}'}
+          >
+            Favorite this Business
+          </button>
+        </form>
+
       </div>
     );
   });
